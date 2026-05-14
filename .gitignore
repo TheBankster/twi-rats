@@ -2,7 +2,6 @@
 *.pdf
 *.redxml
 *.swp
-*.txt
 *.upload
 *~
 .tags
@@ -14,11 +13,9 @@
 /.venv/
 /.vscode/
 /lib
-/node_modules/
 /versioned/
-Gemfile.lock
 archive.json
-draft-ietf-rats-twi-attestation.xml
-package-lock.json
 report.xml
 !requirements.txt
+draft-*.xml
+draft-*.txt
