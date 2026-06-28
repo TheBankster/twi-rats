@@ -86,6 +86,15 @@ informative:
 
 To be written last
 
+There is a large class of "RATS-Unaware" Relying Parties (RUPs) that Attesters nevertheless need to interoperate with.
+Existing deployed services, which precede the introduction of Remote Attestation,
+are often difficult to change/update in significant ways due to regulatory and cryptographic review policies.
+Yet there are significant advantages if clients can be incrementally updated in the trustworthiness of the platform.
+
+This document details a protocol by which the trusthworthiness of an Attesters is reviewed as part of the process of it being provided with some form of an Identity Document (a key, or a credential) to authenticate to RUPs.
+
+This specification illustrates how the RATS Architecture can be applied to interoperate with RUPs by providing Attesters with such Identity Documents.
+
 --- middle
 
 # Introduction

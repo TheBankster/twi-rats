@@ -1,10 +1,5 @@
 **Working draft – everything is subject to change. Please keep change tracking on.**
 
-# Abstract
-
-There is a large class of "RATS-Unaware" Relying Parties (RUPs) that Attesters nevertheless need to interoperate with. RUPs are existing deployed services, which precede the introduction of Remote Attestation, are assumed to be unchangeable, and therefore cannot parse or process Attestation Results, or execute Appraisal Policy for Attestation Results. Neither do they understand the concept of, or can be configured to have trust in, Verifiers.  
-Attesters require some form of an Identity Document (a key, or a credential) to authenticate to RUPs. This specification illustrates how the RATS Architecture can be applied to interoperate with RUPs by providing Attesters with such Identity Documents.
-
 # Introduction
 
 Success of a technology is ultimately measured by its adoption. The RATS Architecture requires that RATS Relying Parties understand Attestation Results expressed using standards such as EAT and AR4SI, execute Appraisal Policy for Attestation Results, and have trust in Verifiers. Additionally, there is an unstated assumption present in the RATS Architecture that a change in Evidence may lead to a change in either the Attestation Results or Appraisal Policy for Attestation Results. This requirement may pose a significant adoption blocker.
