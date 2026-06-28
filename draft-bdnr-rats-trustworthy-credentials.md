@@ -101,9 +101,11 @@ Additionally, there is an unstated assumption present in the RATS Architecture t
 One key requirement for successful deployment of Remote Attestation-capable workloads is minimal blast radius.
 When a workload is moved from a legacy to a remotely attestable (e.g. Trusted Execution) environment, including Intel SGX, AMD SEV-SNP,  ARM TrustZone, that workload can use Remote Attestation to obtain a stable and trustworthy Identity Document while its clients and servers do not notice anything different.
 
-For that, a mechanism is required by means of which the RATS Relying Party, acting as a Credential Broker, a Key Broker, or a Credential Authority, provides the intermediation between Attestation Results, expressed using formats such as EAT and AR4SI, and the RATS-Unaware Relying Parties whose authentication and authorization policies may precede the introduction of Remotely Attestable Workloads and remain static for long periods of time.
+For that, a mechanism is required by means of which a Credential Broker, a Key Broker, or a Credential Authority takes on the role of RATS Relying Party.
+This provides an intermediation between Attestation Results, expressed using formats such as EAT and AR4SI, and the RATS-Unaware Relying Parties whose authentication and authorization policies may precede the introduction of Remotely Attestable Workloads and remain static for long periods of time.
 
-For the RATS-Unaware Relying Parties, these adoption barriers are eliminated, as these RUPs are capable of authenticating their clients utilizing Identity Documents such as shared symmetric keys, or credentials including x.509 certificates, JWTs or WIMSE WITs.
+For the RATS-Unaware Relying Parties, these adoption barriers are eliminated, as these RUPs are capable of authenticating their clients utilizing appropriate Identity Documents.
+This includes shared symmetric keys (bearer tokens), credentials including PKIX certificates {{!RFC5280}}, JWTs {{!RFC7515}}, or WIMSE WITs {{!I-D.ietf-wimse-workload-creds}}.
 In this world, the Attester uses Remote Attestation to obtain from the RATS Relying Party a key, token or credential that is compatible with the RUP.
 
 This document details an architecture by which legacy Identity Document Identity Document issuance mechanisms are replaced with identical Identity Documents issued, but with the additional prerequisite of successful Remote Attestation of the workloads in question.
