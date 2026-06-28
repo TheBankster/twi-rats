@@ -115,27 +115,35 @@ This document details an architecture by which legacy Identity Document Identity
 {::boilerplate bcp14-tagged}
 
 This document uses terms and concepts defined by the WIMSE and RATS architectures, as well as the terms defined by the Trustworthy Workload Identity Special Interest Group at the Confidential Computing Consortium.
-For a complete glossary, see {{Section 4 of -RATS}} , {{-WIMSE}} & {{-TWISIGDef}}.
+For a complete glossary, see {{Section 4 of -RATS}}, {{-WIMSE}} & {{-TWISIGDef}}.
 
 The definitions of terms like Trustworthy Workload Identity and Workload Credential match those specified by the TWI SIG Definitions {{-TWISIGDef}}.
 
-Workload:
+Broker:
+: an entity that deals out pre-existing keys or credential. Constrast to a Credential Authority which mints new credentials.
 
+RUP:
+: The RATS Unaware Party (RUP).  A target service that interacts with many clients based upon credentials provided.   This is sometimes called the Collaborating Party.
+
+Workload:
 : {{-WIMSE}} defines 'Workload' as "an instance of software executing for a specific purpose". Here we restrict that definition to the portions of the deployed software and its configuration that are subject to Remote Attestation.
 
-Workload Credential:
+Workload Duration:
+: the lifespan of the workload.   While some workloads can be very long lived, but many workloads are created for a brief period of time, often added on demand to support rising demand, and persisting for only minutes to a small fraction of a day.
 
+Workload Owner:
+: the entity that manages a workload, arranging to provision it with appropriate Workload Credentials before Workload is launched
+
+Workload Credential:
 : an ephemeral identity document containing an identity and a number of additional claims, that can be short-lived or long-lived, and that is used to access a service
 
+Proof of possession credential:
+: this is a credential, such as a JWT, that contains no other identity or authorization claims.  It is trusted by the RUP due to local policy.
+
 Collaborating Party:
-: a service that the workload needs to communicate with in order to accomplish its task.  For example, an image processor would need access to read images (photos) from the end-user's photo store (e.g., flikr, Google Photos, iPhoto), and then a place to store the results.  In OAUTH2, this would be the Resource.
-
-Credential Broker:
-
-: an entity trusted to obtain and/or distribute Workload Credentials
+: see RUP.
 
 Verifier:
-
 : an entity performing the role of Attestation Verification, as documented in {{Section 4 of -RATS}}
 
 # Overview of Mechanism

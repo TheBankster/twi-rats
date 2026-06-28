@@ -1,15 +1,5 @@
 **Working draft – everything is subject to change. Please keep change tracking on.**
 
-# Conventions and Terminology
-
-\<TODO\>
-Broker \- something that deals out pre-existing keys or credential, vs. Credential Authority which mints new credentials
-RUP?
-Workload Owner – tasked with key/credential bootstrapping before Workload is launched
-
-Assumptions around Duration of workload need to be explained.
-Add “proof-of-possession credential”
-Assumptions about bootstrapping
 
 # RATS Architecture Extension for RATS-Unaware Relying Parties
 
