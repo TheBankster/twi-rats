@@ -94,24 +94,15 @@ This specification illustrates how the RATS Architecture can be applied to inter
 
 # Introduction
 
-The specialization of workloads comes with the benefit of reductions in complexity and corresponding increases in trustworthiness.
-Workloads can be horizontally scaled to get more performance or resiliency, and can be restricted to deal with data only for a single customer, eliminating risk associated with multi-tenant solutions.
+Success of a technology is ultimately measured by its adoption. The RATS Architecture requires that RATS Relying Parties understand Attestation Results expressed using standards such as EAT and AR4SI, execute Appraisal Policy for Attestation Results, and have trust in Verifiers. Additionally, there is an unstated assumption present in the RATS Architecture that a change in Evidence may lead to a change in either the Attestation Results or Appraisal Policy for Attestation Results. This requirement may pose a significant adoption blocker.
 
-This is occuring in a diversity of areas including machine (AI) models, database processes, image processing, financial services and a growing number of agentic mechanisms.
-These workloads are deployed to a variety of environments from traditional virtual machines, Trusted Execution Environments (TEE, including Intel SGX and ARM TrustZone), to so-called serverless environments.
-They may operate on a variety of platforms: public clouds, private clouds, on-premise devices, and even personal devices such as smartphones.
-The operating environment can be highly trusted by the workload owner, but may also have to operate in hostile environments.
+One key requirement for successful deployment of Remote Attestation-capable workloads is minimal blast radius. When a workload is moved from a legacy to a remotely attestable (e.g. Trusted Execution) environment, including Intel SGX, AMD SEV-SNP,  ARM TrustZone, that workload can use Remote Attestation to obtain a stable and trustworthy Identity Document while its clients and servers do not notice anything different.
 
-Workloads operating in such environments need stable and trustworthy identifiers to communicate over the network to the external world.
-This communication is often critical to what the workload is being tasked to do.
+For that, a mechanism is required by means of which the RATS Relying Party, acting as a Credential Broker, a Key Broker, or a Credential Authority, provides the intermediation between Attestation Results, expressed using formats such as EAT and AR4SI, and the RATS-Unaware Relying Parties whose authentication and authorization policies may precede the introduction of Remotely Attestable Workloads and remain static for long periods of time.
 
-Over time the establishment of trust in the workload will occur directly within the communication.
-This is the topic of work such as {{-SEATUSE}}.
-Such mechanisms do not presently exist, will take some time to be deployed once developed, and in some cases, some services may never support the in-protocol mechanism.
+For the RATS-Unaware Relying Parties, these adoption barriers are eliminated, as these RUPs are capable of authenticating their clients utilizing Identity Documents such as shared symmetric keys, or credentials including x.509 certificates, JWTs or WIMSE WITs. In this world, the Attester uses Remote Attestation to obtain from the RATS Relying Party a key, token or credential that is compatible with the RUP.
 
-Current workloads use client-certificate (via mutual-TLS), or OAUTH2 mediated bearer tokens to authenticate themselves and prove authorization.
-
-This document details an architecture by which current workloads, operating with current services can have their trustworthiness evaluated, with the results implicitely communicated to the service.
+This document details an architecture by which legacy Identity Document Identity Document issuance mechanisms are replaced with identical Identity Documents issued, but with the additional prerequisite of successful Remote Attestation of the workloads in question.
 
 # Conventions and Definitions
 {: #definitions }

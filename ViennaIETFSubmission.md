@@ -1,17 +1,5 @@
 **Working draft – everything is subject to change. Please keep change tracking on.**
 
-# Introduction
-
-Success of a technology is ultimately measured by its adoption. The RATS Architecture requires that RATS Relying Parties understand Attestation Results expressed using standards such as EAT and AR4SI, execute Appraisal Policy for Attestation Results, and have trust in Verifiers. Additionally, there is an unstated assumption present in the RATS Architecture that a change in Evidence may lead to a change in either the Attestation Results or Appraisal Policy for Attestation Results. This requirement may pose a significant adoption blocker.
-
-One key requirement for successful deployment of Remote Attestation-capable workloads is minimal blast radius. When a workload is moved from a legacy to a remotely attestable (e.g. Trusted Execution) environment, including Intel SGX, AMD SEV-SNP,  ARM TrustZone, that workload can use Remote Attestation to obtain a stable and trustworthy Identity Document while its clients and servers do not notice anything different.
-
-For that, a mechanism is required by means of which the RATS Relying Party, acting as a Credential Broker, a Key Broker, or a Credential Authority, provides the intermediation between Attestation Results, expressed using formats such as EAT and AR4SI, and the RATS-Unaware Relying Parties whose authentication and authorization policies may precede the introduction of Remotely Attestable Workloads and remain static for long periods of time.
-
-For the RATS-Unaware Relying Parties, these adoption barriers are eliminated, as these RUPs are capable of authenticating their clients utilizing Identity Documents such as shared symmetric keys, or credentials including x.509 certificates, JWTs or WIMSE WITs. In this world, the Attester uses Remote Attestation to obtain from the RATS Relying Party a key, token or credential that is compatible with the RUP.
-
-This document details an architecture by which legacy Identity Document Identity Document issuance mechanisms are replaced with identical Identity Documents issued, but with the additional prerequisite of successful Remote Attestation of the workloads in question.
-
 # Conventions and Terminology
 
 \<TODO\>
