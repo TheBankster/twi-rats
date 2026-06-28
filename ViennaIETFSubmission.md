@@ -12,37 +12,6 @@ In order for an Attester to interoperate with a RUP, the RATS Relying Party requ
 
 The RATS Relying Party can employ either the Passport or Background Check model. The top part of the diagram below is intentionally illustrated as matching the RFC9334 RATS Architecture, because no architectural changes are required to RATS itself – only that the RATS-Unaware Relying Party becomes the final Relying Party following the Remote Attestation exchange.
 
-┌──────────┐   ┌───────────┐  ┌──────────┐  ┌─────────┐
-│ Endorser ├─┐ │ Reference │  │ Verifier │  │ Relying │
-└──────────┘ │ │   Value   │  │  Owner   │  │  Party  │
-             │ │ Provider  │  └─┬────────┘  │  Owner  │
-             │ └─┬─────────┘    │           └───────┬─┘
-             │   │              │ Appraisal         │
-             │   │ Reference    │ Policy for        │
-             │   │ Values       │ Evidence          │
-             │   │              │                   │
-           ┌─▼───▼──────────────▼─┐       Appraisal │
-      ┌────►       Verifier       ├───┐  Policy for │
-      │    └──────────────────────┘   │ Attestation │
-      │                   Attestation │     Results │
-      │ Evidence              Results │             │
-      │                             ┌─▼─────────────▼─┐
-┌─────┴────┐                        │  RATS Relying   │
-│ Attester ◄────────────────────────┤     Party       │
-└─────┬────┘       Token, Key,      │(Cred/Key Broker)│
-      │           or Credential     └─────────────────┘
-      │                             ┌─────────────────┐
-      │         Authentication      │   RATS-Unaware  │
-      └─────────────────────────────►  Relying Party  │
-                                    └───────────────▲─┘
-                                       RATS-Unaware │
-                                     Authentication │
-                                             Policy │
-                                     ┌──────────────┴─┐
-                                     │  RATS-Unaware  │
-                                     │ Relying Party  │
-                                     │     Owner      │
-                                     └────────────────┘
 
 # Details of Protocol
 
