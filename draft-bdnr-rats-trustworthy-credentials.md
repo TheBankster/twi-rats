@@ -56,11 +56,6 @@ author:
   region: ""
   country: Canada
 
-- ins: Y. Deshpande
-  name: Yogesh Deshpande
-  org:  Arm
-  email: Yogesh.Deshpande@arm.com
-
 - ins:
   name: Henk Birkholz
   org:  Franhaufer Inst.
