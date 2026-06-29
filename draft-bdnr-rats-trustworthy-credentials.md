@@ -23,9 +23,7 @@ venue:
  group: RATS
  type: Working Group
  mail: rats@ietf.org
-
-github: "confidential-computing/twi-rats"
-latest: "https://confidential-computing.github.io/twi-rats/draft-bdnr-rats-trustworthy-credentials.html"
+ github: "mcr/twi-rats"
 
 pi:
 
