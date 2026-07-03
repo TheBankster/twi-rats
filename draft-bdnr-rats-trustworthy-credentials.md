@@ -77,14 +77,12 @@ informative:
 
 --- abstract
 
-To be written last
-
 There is a large class of "RATS-Unaware" Relying Parties (RUPs) that Attesters nevertheless need to interoperate with.
 Existing deployed services, which precede the introduction of Remote Attestation,
-are often difficult to change/update in significant ways due to regulatory and cryptographic review policies.
-Yet there are significant advantages if clients can be incrementally updated in the trustworthiness of the platform.
+are often difficult to change/update in significant ways due to, among other reasons, organizational friction, technological inertia, and regulatory policies.
+Yet there are significant advantages if workloads can be incrementally updated in the trustworthiness of the platform, without disrupting their clients and servers.
 
-This document details a protocol by which the trusthworthiness of an Attesters is reviewed as part of the process of it being provided with some form of an Identity Document (a key, or a credential) to authenticate to RUPs.
+This document details a protocol by which Remote Attestattion of Attesters is incorporated into the process of them being provided with Identity Documents (keys or credentials) to authenticate to RUPs.
 
 This specification illustrates how the RATS Architecture can be applied to interoperate with RUPs by providing Attesters with such Identity Documents.
 
@@ -106,7 +104,7 @@ For the RATS-Unaware Relying Parties, these adoption barriers are eliminated, as
 This includes shared symmetric keys (bearer tokens), credentials including PKIX certificates {{!RFC5280}}, JWTs {{!RFC7515}}, or WIMSE WITs {{!I-D.ietf-wimse-workload-creds}}.
 In this world, the Attester uses Remote Attestation to obtain from the RATS Relying Party a key, token or credential that is compatible with the RUP.
 
-This document details an architecture by which legacy Identity Document Identity Document issuance mechanisms are replaced with identical Identity Documents issued, but with the additional prerequisite of successful Remote Attestation of the workloads in question.
+This document details an architecture by which legacy Identity Document issuance mechanisms are replaced with identical Identity Documents issued, but with the additional prerequisite of successful Remote Attestation of the workloads in question.
 
 # Conventions and Definitions
 {: #definitions }
@@ -118,10 +116,10 @@ For a complete glossary, see {{Section 4 of -RATS}}, {{-WIMSE}} & {{-TWISIGDef}}
 The definitions of terms like Trustworthy Workload Identity and Workload Credential match those specified by the TWI SIG Definitions {{-TWISIGDef}}.
 
 Broker:
-: an entity that deals out pre-existing keys or credential. Constrast to a Credential Authority which mints new credentials.
+: an entity that deals out pre-existing keys or credentials. Constrast to a Credential Authority which mints new credentials.
 
 RUP:
-: The RATS Unaware Party (RUP).  A target service that interacts with many clients based upon credentials provided.   This is sometimes called the Collaborating Party.
+: The RATS Unaware Relying Party (RUP).  A target service that interacts with many clients based upon credentials provided. This is sometimes called the Collaborating Party.
 
 Workload:
 : {{-WIMSE}} defines 'Workload' as "an instance of software executing for a specific purpose". Here we restrict that definition to the portions of the deployed software and its configuration that are subject to Remote Attestation.
@@ -146,7 +144,7 @@ Verifier:
 
 # Overview of Mechanism
 
-A newly created workload connects to the Credential Broker to obtain a set of credentials to be used to perform it's functions.
+A newly created workload connects to the Credential Broker to obtain a set of credentials to be used to perform its functions.
 
 Within this connection, Evidence is transferred to the Credential Broker to demonstrate the workloads' trusthworthiness.
 The Credential Broker is acting as a RATS Relying Party, the workload is the Attester.
@@ -154,7 +152,7 @@ The Credential Broker contacts (using the background check model), a Verifier th
 
 Figure {{credential-arch}} extends the {{-RATS}} architecture to show how the workload and credential broker take on the roles of Attester and Relying Party.
 
-If the Attestation Result is acceptable, then the Credential Broker provides the set of credentials that the workload needs to accomplish it's task.
+If the Attestation Result is acceptable, then the Credential Broker provides the set of credentials that the workload needs to accomplish its task.
 
 ~~~ aasvg
 {::include credential_architecture.txt}
