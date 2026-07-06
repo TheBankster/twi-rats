@@ -61,12 +61,13 @@ author:
 
 
 normative:
+  RFC7030: EST
 
 informative:
   RFC9334: RATS
-  I-D.draft-mihalcea-seat-use-cases: SEATUSE
-  I-D.draft-ietf-wimse-arch: WIMSE
-  I-D.draft-ietf-wimse-identifier: WIMSEID
+  I-D.mihalcea-seat-use-cases: SEATUSE
+  I-D.ietf-wimse-arch: WIMSE
+  I-D.ietf-wimse-identifier: WIMSEID
   TWISIGDef:
     -: TWISIGDef
     target: https://github.com/confidential-computing/twi/blob/main/TWI_Definitions.md
@@ -249,9 +250,9 @@ There are three ways to handle the Evidence:
 
 * via a new, Remote Attestation extension to EST
 
-* using {{I-D.ietf-lamps-csr-attestation}} extensions to the CSR itself
+* using {{!I-D.ietf-lamps-csr-attestation}} extensions to the CSR itself
 
-* within TLS itself, using for instance, {{I-D.fossati-seat-expat}}, or whichever protocol the SEAT WG standardizes
+* within TLS itself, using for instance, {{?I-D.fossati-seat-expat}}, or whichever protocol the SEAT WG standardizes
 
 ### Credential Broker as Secure Repository
 
@@ -267,9 +268,9 @@ As before, there are three possible ways to transmit the Evidence:
 
 * via a new, Remote Attestation extension to EST
 
-* using {{I-D.ietf-lamps-csr-attestation}} extensions to the CSR itself.  The serverkeygen mechanism still sends a CSR, with a fake public key.
+* using {{!I-D.ietf-lamps-csr-attestation}} extensions to the CSR itself.  The serverkeygen mechanism still sends a CSR, with a fake public key.
 
-* within TLS itself, using for instance, {{I-D.fossati-seat-expat}}, or whichever protocol the SEAT WG standardizes
+* within TLS itself, using for instance, {{?I-D.fossati-seat-expat}}, or whichever protocol the SEAT WG standardizes
 
 ### Credential Broker as short-term Bearer Token issuer
 
