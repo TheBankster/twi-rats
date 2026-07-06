@@ -108,6 +108,41 @@ In this world, the Attester uses Remote Attestation to obtain from the RATS Rely
 
 This document details an architecture by which legacy Identity Document Identity Document issuance mechanisms are replaced with identical Identity Documents issued, but with the additional prerequisite of successful Remote Attestation of the workloads in question.
 
+## Assumptions about Workload Immutability
+
+While updates and upgrades to the workload and the RATS Unaware Party to add a Remote Attestation capability are not possible in this environment, some changes to the Attesting environment are required in order to do anything.
+
+The assumption is that the workload may be a compiled object or container provided by a third party.
+Or the workload may be in a language not easily changed or upgraded with new capabilities.
+At an extreme example, it could be an ancient COBOL program compiled into a WASM object, perhaps connected to the network via virtual paper-tape and virtual printer interfaces.
+Further, such a system may require extensive and significant review by an authority before changes to the core algorithm can be made.
+
+These workloads run in a virtual machine (VM with unique kernel), or in a containerized environment (common kernel).
+They never run on bare hardware, and there is a hypervisor and/or orchestration environment that arranges the workload and any needed configurations.
+
+However, it is assumed that some the following changes *can* be made:
+
+* network connections use mutual TLS, and the origin of the keypair used for client authentication can be changed or configured by an operator
+
+* the TLS code, while built-in to the application, can be configured to use a Secure Element or TPM as the source for the private key.  Current TLS stacks such as OpenSSL can be configured to use `engines` or `providers` to do asymmetric operations, and providers exist that talk to a TPM for all private key operations.
+
+* in the case of bearer token authentication, that the token can be configured external to the code
+
+* that other components or configurations can be added to the execution environment by the operator
+
+* that the orchestration environment can be extended with new capabilities without affecting the workload itself
+
+
+## Hostile Regulator
+
+A motivating factor in this work is that there are workloads that are mandated to operate in specific geographies under inspection by a local authority.
+The inspection process by the regulator may include agents that must run within the secured environment, where it may examine inputs and outputs to the workload.
+These agents do not have the full trust of the workload owners or RATS Unaware Party.
+
+The trustworthiness of the workload is not absolute (no trust ever is), however there is a need to provide assurance that only the regulator's agent is present, and no additional malware has been introduced.
+(For instance, the agent may have exploits known to additional parties, not yet revealed or fixed by the regulator)
+
+
 # Conventions and Definitions
 {: #definitions }
 {::boilerplate bcp14-tagged}
@@ -164,16 +199,17 @@ If the Attestation Result is acceptable, then the Credential Broker provides the
 ## Types of Credentials
 
 There are three kinds of credentials that can be involved.
-Some workloads might use a few of each.
+Some workloads might use a few of each, possibly with each one being used with a different RATS Unaware Party.
 
 1. The Credential Broker is also an Identity Provider (IdP), and acts as an Registration Authority (possibly including the Certification Authority).  It issues new credentials in the form of PKIX certificates to each trustworthy workload.
 
-2. The Credential Broker is a respository for a credential issued by another Identity Provider (IdP).  The Credential Broker has both the private key and the certificate, and it discloses these to trustworthy workloads by encrypting these to an identity that identifies the workload.
+2. The Credential Broker is a respository for a credential issued by another Identity Provider (IdP).
+The Credential Broker has both the private key (encrypted) and the certificate, and it discloses these to trustworthy workloads by returning them in a unique encryption, bound to the workload identity.
 
 3. The Credential Broker is a resposity for a bearer token issued by a Resource Owner, or a Workload Identity Tokens (WITs) defined in Section 3.1 of {{-WIMSEID}}.
-The Credential Broker discloses this to trustworthy workloads by encrypting these to an identity that identifies the workload.
+The Credential Broker discloses this to trustworthy workloads by returning them in a unique encryption, bound to the workload identity.
 
-The use of a shared private key is unorthodox.
+The use of a shared assymetric private key is unorthodox.
 This architecture is justified by the need to rapidly scale the number of workers and to recover from hardware or network failures.
 The alternatives is that external Identity Providers would need to be willing to respond to spikes of hundreds of credential requests within a small period of time.
 This would look like a denial of service attack, and it may also require additional human authorization for each.
@@ -191,6 +227,54 @@ The credential are then decrypted by the TPM, and the keypair can then be made a
 In this way, a workload that be designed to do mutual TLS using a client-certificate, and for which the location of the private key can be configured to be in a TPM, can be adapted to the mechanism described in this document without any significant change to the workload itself.
 
 # Details of protocol
+
+As there are three major types of credentials that may be used, it is not unreasonable that they may get provisioned in different ways, using different protocols.
+
+## Use of Enrollment over Secure Transport (EST)
+
+EST ({{RFC7030}}) describes a mechanism to enroll with a certification authority using a TLS secured HTTP based protocol.
+
+### Credential Broker as Identity Provider
+
+EST is used by the hypervisor (or container orchestrator) to connect to the Identity Provider.
+The EST protocol is extended to include transmission of Evidence from the Attester to the Identity Provider.
+This Identity Provider acts as a RATS Relying Party, in Background-Check mode.
+The Evidence is passed to an appropriately trusted Verifier, and evaluated.
+
+Based upon the Attestation Results, the Identity Provide then allows the hypervisor to use the EST /simpleenroll mechanism to provide a CSR, and retrieve an appropriate certificate.
+The private key for the certificate can be generated within a TPM, never to leave.
+The hypervisor then inserts the certificate into an appropriate place for inline transmission by mutual TLS.
+
+There are three ways to handle the Evidence:
+
+* via a new, Remote Attestation extension to EST
+
+* using {{I-D.ietf-lamps-csr-attestation}} extensions to the CSR itself
+
+* within TLS itself, using for instance, {{I-D.fossati-seat-expat}}, or whichever protocol the SEAT WG standardizes
+
+### Credential Broker as Secure Repository
+
+EST is used by the hypervisor (or container orchestrator) to connect to the Secure Repository
+The EST protocol is extended to include transmission of Evidence from the Attester to the Secure Repository.
+
+The EST /serverkeygen mechanism is used.
+The server does not generate a fresh key, but rather retrieves the keypair (private key and certificate) from the store.
+This is encrypted back to the client using one of the mechanisms described in RFC7030.
+(TBD: This needs more detail, particularly for the mTLS used in the EST)
+
+As before, there are three possible ways to transmit the Evidence:
+
+* via a new, Remote Attestation extension to EST
+
+* using {{I-D.ietf-lamps-csr-attestation}} extensions to the CSR itself.  The serverkeygen mechanism still sends a CSR, with a fake public key.
+
+* within TLS itself, using for instance, {{I-D.fossati-seat-expat}}, or whichever protocol the SEAT WG standardizes
+
+### Credential Broker as short-term Bearer Token issuer
+
+EST is not appropriate for this use case.
+Another protocol will be required.
 
 TBD.
 
